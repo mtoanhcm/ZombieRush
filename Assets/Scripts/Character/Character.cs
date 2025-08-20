@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 using ZRCharacter.Config;
 using ZRCore.Character;
 using ZRCore.Comp;
+using ZREvent;
 
 namespace ZRCharacter
 {
@@ -9,8 +11,11 @@ namespace ZRCharacter
     {
         public IHealthComponent HealthComponent { get; private set; }
         public IMovementComponent MovementComponent { get; private set; }
+        public IInputComponent InputComponent { get; private set; }
 
         public CharacterID ID => config.ID;
+
+        public GameObject CharacterObject => gameObject;
 
         private CharacterConfig config;
 
@@ -33,19 +38,59 @@ namespace ZRCharacter
             if (TryGetComponent<IMovementComponent>(out var movementComp))
             {
                 MovementComponent = movementComp;
-                MovementComponent.Init(config.MoveSpeed);
+                MovementComponent.Init(config.MoveSpeed, config.SprintSpeed, config.JumForce);
             }
-            
+
+            if (TryGetComponent<IInputComponent>(out var inputComp))
+            {
+                InputComponent = inputComp;
+                InputComponent.Init(config.MoveSpeed);
+            }
+
         }
 
         private void ListenerEvents()
         {
-            HealthComponent.OnDeath -= OnCharacterDeath;
+            
             HealthComponent.OnDeath += OnCharacterDeath;
+
+            if (InputComponent != null) {
+                InputComponent.OnMoveInput += MovementComponent.Move;
+                InputComponent.OnJumpInput += MovementComponent.Jump;
+                InputComponent.OnSprintInput += MovementComponent.Sprint;
+            }
+
+            GameplayEvent.OnGetWinKey += CheckKillCharacter;
+        }
+
+        private void RemoveListener()
+        {
+            HealthComponent.OnDeath -= OnCharacterDeath;
+            if (InputComponent != null)
+            {
+                InputComponent.OnMoveInput -= MovementComponent.Move;
+                InputComponent.OnJumpInput -= MovementComponent.Jump;
+                InputComponent.OnSprintInput -= MovementComponent.Sprint;
+            }
+
+            GameplayEvent.OnGetWinKey -= CheckKillCharacter;
+        }
+
+        private void CheckKillCharacter()
+        {
+            if (gameObject.tag.Equals("Player"))
+            {
+                return;
+            }
+
+            OnCharacterDeath();
         }
 
         private void OnCharacterDeath()
         {
+            RemoveListener();
+            MovementComponent.SetCanMove(false);
+
             CharacterFactory.DespawnCharacter(this);
         }
     }

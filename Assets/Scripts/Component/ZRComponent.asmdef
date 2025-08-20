@@ -2,7 +2,10 @@
     "name": "ZRComponent",
     "rootNamespace": "ZRComponent",
     "references": [
-        "GUID:ce0c8c264d83cbc4397736115ec853e7"
+        "GUID:ce0c8c264d83cbc4397736115ec853e7",
+        "GUID:1139aa1701fdc6a4584ce28c34343d99",
+        "GUID:8ee42cc86f6a8004ea6634736cad05f9",
+        "GUID:2031e33eb3dabfd4fb58cb0ca1987322"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

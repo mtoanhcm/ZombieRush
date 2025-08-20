@@ -1,0 +1,16 @@
+{
+    "name": "ZRAI",
+    "rootNamespace": "",
+    "references": [
+        "GUID:8ee42cc86f6a8004ea6634736cad05f9"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

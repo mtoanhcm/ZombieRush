@@ -9,6 +9,7 @@ namespace ZRCharacter.Config
         public CharacterID ID;
         public float Health;
         public float MoveSpeed;
-        public float JumPower;
+        public float SprintSpeed;
+        public float JumForce;
     }
 }

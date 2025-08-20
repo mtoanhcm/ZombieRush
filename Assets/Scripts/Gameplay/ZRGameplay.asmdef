@@ -3,7 +3,10 @@
     "rootNamespace": "ZRGameplay",
     "references": [
         "GUID:ce0c8c264d83cbc4397736115ec853e7",
-        "GUID:3c3ef7fafb98f7948aebe74994cb22ce"
+        "GUID:3c3ef7fafb98f7948aebe74994cb22ce",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:a9d7bc31584c798419c9836a26de1daa",
+        "GUID:8ee42cc86f6a8004ea6634736cad05f9"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
