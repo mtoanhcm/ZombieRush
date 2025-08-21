@@ -8,6 +8,12 @@ namespace ZREvent
         public static event Action OnStarGame;
         public static event Action<bool> OnGameover;
         public static event Action OnGetWinKey;
+        public static event Action<int> OnCountdownStarGame;
+
+        public static void TriggerCountdownStartGame(int countdown)
+        {
+            OnCountdownStarGame?.Invoke(countdown);
+        }
 
         public static void TriggerGetWinKey()
         {

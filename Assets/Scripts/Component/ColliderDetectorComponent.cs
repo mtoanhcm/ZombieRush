@@ -1,9 +1,10 @@
 using System;
 using UnityEngine;
+using ZRCore.Comp;
 
-namespace ZRUtility
+namespace ZRComponent
 {
-    public class ColliderDetector : MonoBehaviour
+    public class ColliderDetectorComponent : MonoBehaviour, IColliderDetectComponent
     {
         /// <summary>
         /// Event detect collider for non-trigger check
@@ -18,12 +19,12 @@ namespace ZRUtility
         /// <summary>
         /// Condition for detecting trigger collider
         /// </summary>
-        public Func<Collider, bool> ColliderEnterCondition;
+        public Func<Collider, bool> ColliderEnterCondition { get; set; }
 
         /// <summary>
         /// Condition for detecting non-trigger collider
         /// </summary>
-        public Func<Collision, bool> CollisionEnterCondition;
+        public Func<Collision, bool> CollisionEnterCondition { get; set; }
 
         private void OnCollisionEnter(Collision collision)
         {

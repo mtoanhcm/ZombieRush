@@ -4,6 +4,7 @@ using ZREvent;
 using ZRUtility;
 using DG.Tweening;
 using System.Collections;
+using ZRCore.Comp;
 
 namespace ZRGameplay
 {
@@ -12,13 +13,13 @@ namespace ZRGameplay
         [SerializeField]
         private Transform door;
         [SerializeField]
-        private ColliderDetector colliderDetector;
-        [SerializeField]
         private Collider roomBox;
         [SerializeField]
         private EscapeKey key;
         [SerializeField]
         private float keyChangeTime;
+
+        private IColliderDetectComponent colliderDetector;
 
         private void OnEnable()
         {
@@ -33,6 +34,11 @@ namespace ZRGameplay
             colliderDetector.OnColliderEnterDetect -= SendWinGameSignal;
             GameplayEvent.OnGetWinKey -= OpenWinDoor;
             GameplayEvent.OnStarGame -= StartChangeKeyPosition;
+        }
+
+        private void Awake()
+        {
+            colliderDetector = gameObject.GetComponentInChildren<IColliderDetectComponent>();
         }
 
         private bool IsPlayerEnterDoor(Collider collider)
@@ -53,7 +59,7 @@ namespace ZRGameplay
 
         private void StartChangeKeyPosition()
         {
-            //StartCoroutine(ChangeKeyPosition());
+            StartCoroutine(ChangeKeyPosition());
         }
 
         private IEnumerator ChangeKeyPosition()

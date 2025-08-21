@@ -38,6 +38,11 @@ namespace ZRComponent
 
                 Quaternion targetRotation = Quaternion.LookRotation(moveVector, Vector3.up);
                 rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, 10 * Time.fixedDeltaTime));
+
+                if (!IsOnGround())
+                {
+                    CheckWallAndFixVelocity();
+                }
             }
         }
 
@@ -55,15 +60,8 @@ namespace ZRComponent
             canMove = true;
         }
 
-        [SerializeField]
-        private bool isDebug;
         public void Move(Vector2 direction)
         {
-            if (isDebug)
-            {
-                Debug.Log(direction);
-            }
-
             moveDirection = direction;
         }
 
@@ -79,8 +77,7 @@ namespace ZRComponent
                 return;
             }
 
-            bool isOnGround = Physics.OverlapSphere(transform.position, 0.01f, ObjectLayer.SolidObjectLayer).Length > 0;
-            if (!isOnGround) {
+            if (!IsOnGround()) {
                 return;
             }
 
@@ -92,6 +89,27 @@ namespace ZRComponent
         public void Sprint(bool isSpinning)
         {
             isSprint = isSpinning;
+        }
+
+        private bool IsOnGround()
+        {
+            return Physics.OverlapSphere(transform.position, 0.01f, ObjectLayer.SolidObjectLayer).Length > 0;
+        }
+
+        void CheckWallAndFixVelocity()
+        {
+            Vector3 moveDir = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+
+            if (moveDir.sqrMagnitude < 0.0001f)
+                return;
+
+            Vector3 dir = moveDir.normalized;
+
+            if (Physics.Raycast(transform.position, dir, out RaycastHit hit, 0.5f, ObjectLayer.ObstacleLayer))
+            {
+                Vector3 fixedVel = Vector3.ProjectOnPlane(rb.linearVelocity, hit.normal);
+                rb.linearVelocity = fixedVel;
+            }
         }
     }
 }

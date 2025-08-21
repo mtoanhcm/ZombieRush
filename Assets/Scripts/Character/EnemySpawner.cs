@@ -26,12 +26,20 @@ namespace ZRCharacter
         {
             GameplayEvent.OnStarGame += StartCheckSpawnEnemy;
             GameplayEvent.OnGetWinKey += TerminateSpawn;
+            GameplayEvent.OnGameover += TerminateSpawn;
         }
 
         private void OnDestroy()
         {
             GameplayEvent.OnStarGame -= StartCheckSpawnEnemy;
             GameplayEvent.OnGetWinKey -= TerminateSpawn;
+            GameplayEvent.OnGameover -= TerminateSpawn;
+        }
+
+        private void TerminateSpawn(bool isWin)
+        {
+            canSpawn = false;
+            StopAllCoroutines();
         }
 
         private void TerminateSpawn()

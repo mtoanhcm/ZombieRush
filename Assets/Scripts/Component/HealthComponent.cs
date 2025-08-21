@@ -25,7 +25,7 @@ namespace ZRComponent
 
         public void TakeDamage(int damage)
         {
-            CurrentHealth = Mathf.Max(CurrentHealth - damage, MaxHealth);
+            CurrentHealth = Mathf.Max(CurrentHealth - damage, 0);
             if (CurrentHealth <= 0) { 
                 OnDeath?.Invoke();
             }

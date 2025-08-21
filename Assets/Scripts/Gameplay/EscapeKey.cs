@@ -1,8 +1,7 @@
 using System;
-using Unity.Loading;
 using UnityEngine;
+using ZRCore.Comp;
 using ZREvent;
-using ZRUtility;
 
 namespace ZRGameplay
 {
@@ -10,8 +9,12 @@ namespace ZRGameplay
     {
         public bool IsActive => gameObject.activeSelf;
 
-        [SerializeField]
-        private ColliderDetector colliderDetector;
+        private IColliderDetectComponent colliderDetector;
+
+        private void Awake()
+        {
+            colliderDetector = gameObject.GetComponentInChildren<IColliderDetectComponent>();
+        }
 
         public void SetKeyPosition(Vector3 pos)
         {
